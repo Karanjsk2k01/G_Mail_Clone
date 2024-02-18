@@ -1,0 +1,52 @@
+.login_screen {
+  height: 100vh;
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__screen__image {
+  height: 100px;
+  position: absolute;
+  top: 12rem;
+  margin-bottom: 1rem;
+}
+
+.login_screen>form>input {
+  margin-top: 1rem;
+  width: 250px;
+  height: 30px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.login__button {
+  width: 280px !important;
+  height: 40px !important;
+  border: none !important;
+  background-color: purple !important;
+  color: white !important;
+  padding: 10px !important;
+}
+
+span {
+  font-size: 14px;
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+form>h5 {
+  color: gray;
+  font-size: 15px;
+}
