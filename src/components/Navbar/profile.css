@@ -1,0 +1,83 @@
+.profile__deactive {
+  display: none;
+}
+
+.profile__active {
+  position: absolute;
+  width: 400px;
+  background-color: #f2f2f2;
+  height: 400px;
+  z-index: 1000;
+  display: flex;
+  right: 2rem;
+  margin: 10px;
+  border-radius: 30px;
+  flex-direction: column;
+  align-items: center;
+  transition: all ease-in 10s;
+}
+
+.profile__container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+}
+
+.profile__email {
+  margin-top: 2rem;
+  font-weight: bold;
+
+}
+
+.profile__email__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.profile__button {
+  margin-bottom: 1rem;
+}
+
+
+.avatar {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.profile__message {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.profile_name,
+.email_section {
+
+  font-size: 15px;
+  font-weight: bolder;
+  color: black;
+}
+
+.profile__button_MU {
+  font-weight: bold !important;
+  width: 100% !important;
+  height: 100% !important;
+  font-weight: bolder;
+  margin-bottom: 1rem !important;
+  border-radius: 20px !important;
+  padding: 5px 15px !important;
+}
+
+.icon {
+  margin-bottom: 18px !important;
+}

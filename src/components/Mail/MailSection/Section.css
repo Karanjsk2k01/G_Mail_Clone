@@ -1,0 +1,29 @@
+.section {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  min-width: 200px;
+  color: grey;
+  border-width: 0 !important;
+  position: sticky;
+  top: 0;
+}
+
+.section>h4 {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.section>.MuiSvgIcon-root {
+  margin-left: 10px !important;
+}
+
+.section__selected {
+  background-color: white;
+  border-width: 3px !important;
+}
+
+.section:hover {
+  background-color: whitesmoke;
+  border-width: 3px !important;
+}
