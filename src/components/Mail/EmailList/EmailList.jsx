@@ -34,8 +34,6 @@ const EmailList = () => {
 
       const userDocRef = doc(db, 'users', userId);
       const emailCollectionRef = collection(userDocRef, 'emails');
-
-
       const unsubcribe = onSnapshot(emailCollectionRef, (snap) => {
 
         const fetchedEmail = [];
@@ -52,6 +50,8 @@ const EmailList = () => {
       return (() => {
         unsubcribe();
       })
+
+
     }
 
 
