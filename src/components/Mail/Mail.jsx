@@ -16,13 +16,39 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectMailValue } from '../../Redux/Slice/composeReducer';
+import { auth, db } from '../../Backend/firebase';
+import { collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
 
 
 const Mail = () => {
 
   const navigate = useNavigate();
   const emailValue = useSelector(state => state.compose.selectMail)
+
+  const handleDeleteMail = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      const userId = user.uid;
+
+      const userDocRef = doc(db, 'users', userId);
+
+      const singleEmailRef = doc(userDocRef, 'emails', emailValue.id)
+
+      const getEmail = await getDoc(singleEmailRef)
+
+      if (getEmail.exists()) {
+        await deleteDoc(singleEmailRef);
+
+        navigate('/')
+      }
+
+    }
+    else {
+      return
+    }
+
+  }
 
 
   return (
@@ -34,7 +60,7 @@ const Mail = () => {
             <ArrowBackIcon />
           </IconButton>
 
-          <IconButton>
+          <IconButton onClick={handleDeleteMail}>
             <DeleteIcon />
           </IconButton>
 
