@@ -32,7 +32,7 @@ const Siderbar = () => {
 
   return (
     <div className='Sidebar' >
-      <Button startIcon={<AddIcon />} className='sidebar__compose'
+      <Button startIcon={<AddIcon className='sidebar__compose__icon' />} className='sidebar__compose'
         onClick={handleMenuClick}
       >
         Compose

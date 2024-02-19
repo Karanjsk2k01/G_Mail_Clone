@@ -18,8 +18,8 @@ import EmailRow from './EmailRow';
 
 
 //firebase import
-import { db } from '../../../Backend/firebase'
-import { collection, onSnapshot } from "firebase/firestore";
+import { auth, db } from '../../../Backend/firebase'
+import { collection, doc, onSnapshot } from "firebase/firestore";
 
 
 const EmailList = () => {
@@ -28,24 +28,32 @@ const EmailList = () => {
 
   useEffect(() => {
 
-    const emailRef = collection(db, 'emails');
+    const user = auth.currentUser;
+    if (user) {
+      const userId = user.uid;
 
-    const unsubcribe = onSnapshot(emailRef, (snap) => {
+      const userDocRef = doc(db, 'users', userId);
+      const emailCollectionRef = collection(userDocRef, 'emails');
 
-      const fetchedEmail = [];
 
-      snap.forEach((doc) => {
-        fetchedEmail.push({ id: doc.id, ...doc.data() })
+      const unsubcribe = onSnapshot(emailCollectionRef, (snap) => {
+
+        const fetchedEmail = [];
+
+        snap.forEach((doc) => {
+          fetchedEmail.push({ id: doc.id, ...doc.data() })
+        })
+
+        setEmails(fetchedEmail)
+
       })
 
-      setEmails(fetchedEmail)
 
-    })
+      return (() => {
+        unsubcribe();
+      })
+    }
 
-
-    return (() => {
-      unsubcribe();
-    })
 
 
   }, [])

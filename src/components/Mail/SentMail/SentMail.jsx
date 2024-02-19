@@ -4,22 +4,22 @@ import './SentMail.css';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Button, IconButton } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { closeCompose } from '../../../Redux/Slice/composeReducer';
 import { useForm } from 'react-hook-form';
-import { db } from '../../../Backend/firebase'
-import { getDocs, collection, addDoc } from 'firebase/firestore';
-
+import { auth, db } from '../../../Backend/firebase'
+import { collection, addDoc, doc } from 'firebase/firestore';
 
 
 const SentMail = () => {
 
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const emailValue = useSelector(state => state.user.user.email);
 
   const getCurrentTimestamp = () => {
     const currentDate = new Date();
-    return currentDate.toISOString(); // Convert date to ISO string format
+    return currentDate.toISOString();
   };
 
   const handleClose = () => {
@@ -30,24 +30,35 @@ const SentMail = () => {
 
   const onSubmit = async (data) => {
     try {
-      const docRef = await addDoc(collection(db, 'emails'), {
-        to: data.to,
-        subject: data.subject,
-        message: data.message,
-        timestamp: getCurrentTimestamp()
-      });
-      console.log("Document written with ID: ", docRef.id);
-      dispatch(closeCompose())
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        const userDocRef = doc(db, 'users', userId);
+        const emailCollectionRef = collection(userDocRef, 'emails');
+
+        const docRef = await addDoc(emailCollectionRef, {
+          to: data.to,
+          subject: data.subject,
+          message: data.message,
+          timestamp: getCurrentTimestamp()
+        });
+
+        console.log("Document written with ID: ", docRef.id);
+        dispatch(closeCompose());
+      } else {
+        // Handle case where no user is signed in
+        console.error("No user signed in");
+      }
     } catch (error) {
       console.error("Error adding document: ", error);
     }
   };
 
 
+
   return (
 
     <div className='SentMail'>
-
       <div className="SentMail__header">
         <h3>New Message</h3>
         <IconButton>
