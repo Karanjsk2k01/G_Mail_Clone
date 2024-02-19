@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './EmailList.css';
 
 
@@ -17,46 +17,13 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import EmailRow from './EmailRow';
 
 
-//firebase import
-import { auth, db } from '../../../Backend/firebase'
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import useGetEmails from '../../customHooks/getEmails';
 
 
 const EmailList = () => {
 
-  const [emails, setEmails] = useState([])
-
-  useEffect(() => {
-
-    const user = auth.currentUser;
-    if (user) {
-      const userId = user.uid;
-
-      const userDocRef = doc(db, 'users', userId);
-      const emailCollectionRef = collection(userDocRef, 'emails');
-      const unsubcribe = onSnapshot(emailCollectionRef, (snap) => {
-
-        const fetchedEmail = [];
-
-        snap.forEach((doc) => {
-          fetchedEmail.push({ id: doc.id, ...doc.data() })
-        })
-
-        setEmails(fetchedEmail)
-
-      })
-
-
-      return (() => {
-        unsubcribe();
-      })
-
-
-    }
-
-
-
-  }, [])
+  //from customHook
+  const emails = useGetEmails()
 
 
   return (

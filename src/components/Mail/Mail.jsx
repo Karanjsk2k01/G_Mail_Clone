@@ -16,40 +16,19 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { auth, db } from '../../Backend/firebase';
-import { collection, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import useDeleteEmails from '../customHooks/deleteEmails';
 
 
 const Mail = () => {
 
   const navigate = useNavigate();
-  const emailValue = useSelector(state => state.compose.selectMail)
+  const emailValue = useSelector(state => state.compose.selectMail);
+
+  const { deleteMail } = useDeleteEmails();
 
   const handleDeleteMail = async () => {
-    const user = auth.currentUser;
-
-    if (user) {
-      const userId = user.uid;
-
-      const userDocRef = doc(db, 'users', userId);
-
-      const singleEmailRef = doc(userDocRef, 'emails', emailValue.id)
-
-      const getEmail = await getDoc(singleEmailRef)
-
-      if (getEmail.exists()) {
-        await deleteDoc(singleEmailRef);
-
-        navigate('/')
-      }
-
-    }
-    else {
-      return
-    }
-
+    await deleteMail()
   }
-
 
   return (
     <div className="mail">

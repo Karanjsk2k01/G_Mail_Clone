@@ -4,23 +4,18 @@ import './SentMail.css';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Button, IconButton } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { closeCompose } from '../../../Redux/Slice/composeReducer';
 import { useForm } from 'react-hook-form';
-import { auth, db } from '../../../Backend/firebase'
-import { collection, addDoc, doc } from 'firebase/firestore';
+import useSentEmails from '../../customHooks/sentEmails';
 
 
 const SentMail = () => {
 
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const emailValue = useSelector(state => state.user.user.email);
+  const { sendEmail } = useSentEmails()
 
-  const getCurrentTimestamp = () => {
-    const currentDate = new Date();
-    return currentDate.toISOString();
-  };
 
   const handleClose = () => {
     dispatch(closeCompose())
@@ -29,31 +24,13 @@ const SentMail = () => {
 
 
   const onSubmit = async (data) => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        const userDocRef = doc(db, 'users', userId);
-        const emailCollectionRef = collection(userDocRef, 'emails');
 
-        const docRef = await addDoc(emailCollectionRef, {
-          to: data.to,
-          subject: data.subject,
-          message: data.message,
-          timestamp: getCurrentTimestamp()
-        });
+    const result = await sendEmail(data);
 
-        console.log("Document written with ID: ", docRef.id);
-        dispatch(closeCompose());
-      } else {
-        // Handle case where no user is signed in
-        console.error("No user signed in");
-      }
-    } catch (error) {
-      console.error("Error adding document: ", error);
+    if (result.success) {
+      handleClose();
     }
-  };
-
+  }
 
 
   return (
