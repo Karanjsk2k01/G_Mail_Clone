@@ -3,40 +3,45 @@ import { auth, db } from "../../Backend/firebase";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const useGetEmails = () => {
-
   const [emails, setEmails] = useState([]);
-
-  const user = auth.currentUser;
+  const [unreadEmail, setUnreadEmails] = useState([]);
 
   useEffect(() => {
+    const user = auth.currentUser;
     if (user) {
       const userId = user.uid;
 
-      const userDocRef = doc(db, 'users', userId)
-
+      const userDocRef = doc(db, 'users', userId);
       const emailCollectionRef = collection(userDocRef, 'emails');
+      const unreademailCollectionRef = collection(userDocRef, 'unreadEmails');
 
-      const unsubscribe = onSnapshot(emailCollectionRef, (snap) => {
-        const fetchedEmail = [];
+      // Subscribe to email collection changes
+      const unsubscribeEmails = onSnapshot(emailCollectionRef, (snap) => {
+        const fetchedEmails = snap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setEmails(fetchedEmails);
+      });
 
-        snap.forEach((doc) => {
-          fetchedEmail.push({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
+      // Subscribe to unread email collection changes
+      const unsubscribeUnreadEmails = onSnapshot(unreademailCollectionRef, (snap) => {
+        const fetchedUnreadEmails = snap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setUnreadEmails(fetchedUnreadEmails);
+      });
 
-        setEmails(fetchedEmail);
-      })
-
-      return (() => {
-        unsubscribe();
-      })
+      // Unsubscribe functions
+      return () => {
+        unsubscribeEmails();
+        unsubscribeUnreadEmails();
+      };
     }
-  }, [])
+  }, []);
 
-  return emails || [];
-}
-
+  return [emails, unreadEmail]; // Return both emails and unread emails
+};
 
 export default useGetEmails;

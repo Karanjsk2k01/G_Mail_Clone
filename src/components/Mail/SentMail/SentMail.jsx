@@ -22,7 +22,6 @@ const SentMail = () => {
   }
 
 
-
   const onSubmit = async (data) => {
 
     const result = await sendEmail(data);

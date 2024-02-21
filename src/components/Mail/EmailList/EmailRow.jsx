@@ -1,17 +1,16 @@
 import { Checkbox, IconButton } from '@mui/material';
 import React from 'react';
 import './EmailRow.css';
+import CircleIcon from '@mui/icons-material/Circle';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import LabelImportantOutlinedIcon from '@mui/icons-material/LabelImportantOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectedMail } from '../../../Redux/Slice/composeReducer';
 
-const EmailRow = ({ title, subject, description, time, id }) => {
+const EmailRow = ({ title, subject, description, time, id, unreadEmail }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   const handleMailDispatch = () => {
 
@@ -27,8 +26,6 @@ const EmailRow = ({ title, subject, description, time, id }) => {
   }
 
 
-
-
   return (
     <div onClick={handleMailDispatch} className='emailrow'>
       <div className="emailrow__options">
@@ -37,8 +34,9 @@ const EmailRow = ({ title, subject, description, time, id }) => {
           <StarBorderOutlinedIcon />
         </IconButton>
         <IconButton>
-          <LabelImportantOutlinedIcon />
+          {unreadEmail && <CircleIcon className='unread' />}
         </IconButton>
+
       </div>
 
       <h3 className="emailrow__title">
@@ -55,7 +53,8 @@ const EmailRow = ({ title, subject, description, time, id }) => {
       <p className="emailrow__time">
         {time}
       </p>
-    </div>
+
+    </div >
   );
 };
 

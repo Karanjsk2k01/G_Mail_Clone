@@ -54,8 +54,8 @@ const Login = () => {
 
       <form onSubmit={handleLogin}>
         <h5>Login with your Credential</h5>
-        <input type="email" value={email} placeholder='Email...' onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" value={password} placeholder='Password...' onChange={(e) => setPassword(e.target.value)} />
+        <input type="email" required value={email} placeholder='Email...' onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" required value={password} placeholder='Password...' onChange={(e) => setPassword(e.target.value)} />
         <button className='login__button' type="submit">{loading ? 'Loading' : 'Login'}</button>
 
         {error && <span>

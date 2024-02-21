@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './EmailList.css';
 
 
@@ -23,7 +23,7 @@ import useGetEmails from '../../customHooks/getEmails';
 const EmailList = () => {
 
   //from customHook
-  const emails = useGetEmails()
+  const [emails, unreadEmail] = useGetEmails()
 
 
   return (
@@ -75,6 +75,7 @@ const EmailList = () => {
               subject={item.subject}
               description={item.message}
               time={item.timestamp}
+              unreadEmail={unreadEmail.find(email => email.id === item.id) || null}
             />
           ))
         ) : (

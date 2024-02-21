@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Backend/firebase';
 import { userLogin } from './Redux/Slice/userReducer';
+import TextEditor from './components/practice/textEditor'
 
 function App() {
   const isOpen = useSelector(state => state.compose.isOpen);
@@ -57,6 +58,7 @@ function App() {
             )}
             {!user && <Route path='/login' element={<Login />} />}
             {!user && <Route path='/Signin' element={<SignIn />} />}
+            {!user && <Route path='/editor' element={<TextEditor />} />}
           </Routes>
           {isOpen && <SentMail />}
         </div>

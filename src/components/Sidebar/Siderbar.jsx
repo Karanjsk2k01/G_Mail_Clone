@@ -19,6 +19,7 @@ import DuoIcon from '@mui/icons-material/Duo';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { useDispatch } from 'react-redux';
 import { openCompose } from '../../Redux/Slice/composeReducer';
+import useGetEmails from '../customHooks/getEmails';
 
 const Siderbar = () => {
 
@@ -26,9 +27,9 @@ const Siderbar = () => {
 
   const handleMenuClick = () => {
     dispatch(openCompose())
-
   }
 
+  const [emails, unreadEmail] = useGetEmails()
 
   return (
     <div className='Sidebar' >
@@ -39,7 +40,9 @@ const Siderbar = () => {
       </Button>
 
       <div className="sidebar__options">
-        <SidebarOptions Icon={InboxIcon} title='Inbox' number={54} selected={true} />
+        <SidebarOptions Icon={InboxIcon} title='Inbox' number={
+          unreadEmail.length || 0
+        } selected={true} />
         <SidebarOptions Icon={StarIcon} title='Starred' number={54} />
         <SidebarOptions Icon={AccessTimeIcon} title='Snooze' number={54} />
         <SidebarOptions Icon={LabelImportantIcon} title='Important' number={54} />
