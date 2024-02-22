@@ -21,9 +21,11 @@ const useDeleteEmails = () => {
       const getEmail = await getDoc(singleEmailRef)
 
       if (getEmail.exists()) {
-        await deleteDoc(singleEmailRef);
 
         navigate('/')
+
+        await deleteDoc(singleEmailRef);
+
       }
 
     }

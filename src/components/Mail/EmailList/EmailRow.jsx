@@ -6,13 +6,15 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectedMail } from '../../../Redux/Slice/composeReducer';
+import useUnReadDeleteEmails from '../../customHooks/deleteUnreadEmails';
 
 const EmailRow = ({ title, subject, description, time, id, unreadEmail }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { unreadDeleteMail } = useUnReadDeleteEmails();
 
-  const handleMailDispatch = () => {
+  const handleMailDispatch = async () => {
 
     dispatch(selectedMail({
       id,
@@ -20,9 +22,14 @@ const EmailRow = ({ title, subject, description, time, id, unreadEmail }) => {
       subject,
       description,
       time
-    }))
+    }));
 
     navigate('/mail')
+
+    if (unreadEmail) {
+      await unreadDeleteMail(unreadEmail.id)
+    }
+
   }
 
 
