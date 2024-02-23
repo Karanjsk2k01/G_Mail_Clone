@@ -62,7 +62,7 @@ const Login = () => {
           {errored(error)}
         </span>}
 
-        <span>New User ? <a href="/SignIn">SignIn</a></span>
+        <span>New User ? <a href="/Signin">SignIn</a></span>
       </form>
 
     </div>
