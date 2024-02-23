@@ -48,7 +48,7 @@ function App() {
                 <Route path='/mail' element={<Mail />} />
                 <Route path='/' element={<EmailList />} />
                 <Route path='/login' element={<Navigate to="/" />} />
-                <Route path='/Signin' element={<Navigate to="/" />} />
+                <Route path='/signin' element={<Navigate to="/" />} />
               </>
             ) : (
               <>
@@ -57,7 +57,7 @@ function App() {
               </>
             )}
             {!user && <Route path='/login' element={<Login />} />}
-            {!user && <Route path='/Signin' element={<SignIn />} />}
+            {!user && <Route path='/signin' element={<SignIn />} />}
             {!user && <Route path='/editor' element={<TextEditor />} />}
           </Routes>
           {isOpen && <SentMail />}
